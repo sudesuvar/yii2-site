@@ -95,8 +95,9 @@ class m010101_010101_site_setting extends Migration
                 'widget' => '\portalium\storage\widgets\FilePicker',
                 'options' => [
                     'multiple' => 0,
-                    'returnAttribute' => ['name'],
+                    'attributes' => ['name'],
                     'name' => 'app::logo_wide',
+                    'isPicker' => true
                 ]
             ])
         ]);
@@ -111,12 +112,12 @@ class m010101_010101_site_setting extends Migration
                 'widget' => '\portalium\storage\widgets\FilePicker',
                 'options' => [
                     'multiple' => 0,
-                    'returnAttribute' => ['name'],
+                    'attributes' => ['name'],
                     'name' => 'app::logo_square',
+                    'isPicker' => true
                 ]
             ])
         ]);
-
         $this->insert(Module::$tablePrefix . 'setting', [
             'module' => 'site',
             'name' => 'form::signup',
