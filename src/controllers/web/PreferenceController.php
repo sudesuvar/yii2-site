@@ -2,88 +2,59 @@
 
 namespace portalium\site\controllers\web;
 
+use Yii;
+use portalium\site\Module;
+use yii\helpers\ArrayHelper;
+use portalium\site\models\Setting;
+use portalium\web\Controller as WebController;
+
 use portalium\site\models\Preference;
 use portalium\site\models\PreferenceSearch;
-use portalium\site\models\Setting;
+use portalium\site\models\SettingValue;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use Yii;
-use yii\data\ActiveDataProvider;
+
+
 /**
  * PreferenceController implements the CRUD actions for Preference model.
  */
-class PreferenceController extends \portalium\web\Controller
+class PreferenceController extends WebController
 {
-    /**
-     * @inheritDoc
-     */
-    public function behaviors()
-    {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
-            ]
-        );
-    }
-
-    /**
-     * Lists all Preference models.
-     *
-     * @return string
-     */
     public function actionIndex()
     {
-        $searchModel = new PreferenceSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
-     * Displays a single Preference model.
-     * @param int $id_preference Id Preference
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id_preference)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id_preference),
-        ]);
-    }
-
-    /**
-     * Creates a new Preference model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
-     */
-    public function actionCreate()
-    {
-        $model = new Preference();
-        $model->id_user=Yii::$app->user->id;
-        $model->id_workspace=Yii::$app->workspace->id;
-
-
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id_preference' => $model->id_preference]);
-            }
-        } else {
-            $model->loadDefaultValues();
+        if(!Yii::$app->user->can('siteWebPreferenceIndex')){
+            throw new \yii\web\ForbiddenHttpException(Module::t('You are not allowed to access this page.'));
         }
 
-        return $this->render('create', [
-            'model' => $model,
+        $settings = Setting::find()
+            ->where(['is_preference' => 1])
+            ->orderBy(['module' => SORT_ASC,'id' => SORT_ASC,'name'=>SORT_ASC])
+            ->indexBy('id')
+            ->all();
+        $settingsGroup = ArrayHelper::index($settings, null, 'module');
+
+        foreach ($settings as $setting) {
+
+            $preference = Preference::find()
+                ->where([
+                    'id_user' =>\Yii::$app->user->id,
+                    'id_workspace' =>\Yii::$app->workspace->id,
+                    'id_setting' => $setting->id,
+                ])
+                ->one();
+
+            if($preference)
+            {
+                $setting->value=$preference->value;
+            }
+
+            $setting->value = ($this->isJson($setting->value) && in_array($setting->type, SettingValue::getScenarios()['multiple'])) ? json_decode($setting->value) : $setting->value;
+        }
+
+        return $this->render('index', [
+            'settings' => $settings,
+            'settingsGroup' => $settingsGroup
         ]);
     }
 
@@ -94,57 +65,85 @@ class PreferenceController extends \portalium\web\Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id_preference)
+    public function actionUpdate()
     {
-        $model = $this->findModel($id_preference);
+        if(!Yii::$app->user->can('siteWebPreferenceUpdate')){
+            throw new \yii\web\ForbiddenHttpException(Module::t('You are not allowed to access this page.'));
+        }
+        $settings = Setting::find()->indexBy('id')->all();
+        $preferenceData = Yii::$app->request->post('Setting');
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id_preference' => $model->id_preference]);
+        foreach ($settings as $setting)
+        {
+            $valueModel = new SettingValue();
+            if(!isset($preferenceData["$setting->module-$setting->id"])){
+                continue;
+            }else{
+
+            }
+
+            //setting is updating
+            $valueModel->value = $preferenceData["$setting->module-$setting->id"]['value'];
+            $valueModel->scenario = $setting->type;
+
+            if ($valueModel->validate()) {
+                $preferenceData["$setting->module-$setting->id"]['value'] = (is_array($valueModel->value)) ? json_encode($valueModel->value) : $valueModel->value;
+            }else{
+                Yii::$app->session->addFlash('error', Module::t('There are an error. Settings not saved.'));
+                return $this->redirect('index');
+            }
+
+            if ($setting->validate()) {
+
+                $preferenceModel=new Preference();
+
+                $preferenceModel->value=$preferenceData["$setting->module-$setting->id"]['value'];
+                $preferenceModel->id_user=Yii::$app->user->id;
+                $preferenceModel->id_workspace=Yii::$app->workspace->id;
+                $preferenceModel->id_setting=$setting->id;
+
+                $preference = Preference::find()
+                    ->where([
+                        'id_user' => $preferenceModel->id_user,
+                        'id_workspace' => $preferenceModel->id_workspace,
+                        'id_setting' => $preferenceModel->id_setting,
+                    ])
+                    ->one();
+
+                if($setting->value != $preferenceModel->value)
+                {
+                    if($preference==null)
+                    {
+                        $preferenceModel->save();
+                    }
+
+                    elseif ($preference->value != $preferenceModel->value) {
+                        $preference->value=$preferenceModel->value;
+                        $preference->save();
+                    }
+                }
+                elseif ($preference!=null && $setting->value == $preferenceModel->value)
+                {
+                    $preference->delete();
+                }
+
+            }else{
+                Yii::$app->session->addFlash('error', Module::t('There are an error. Settings not saved.'));
+                return $this->redirect('index');
+            }
         }
 
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        Yii::$app->session->addFlash('success', Module::t('Settings saved'));
+
+        return $this->redirect('index');
     }
 
-    /**
-     * Deletes an existing Preference model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id_preference Id Preference
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id_preference)
-    {
-        $this->findModel($id_preference)->delete();
-
-        return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the Preference model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id_preference Id Preference
-     * @return Preference the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id_preference)
-    {
-        if (($model = Preference::findOne(['id_preference' => $id_preference])) !== null) {
-            return $model;
+    public function isJson($string) {
+        if(!$string) {
+            return false;
         }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
+        return json_last_error() === JSON_ERROR_NONE;
     }
 
-    public function actionFindIsPereference()
-    {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Setting::find()->where(['is_preference' => 1]),
-        ]);
 
-        return $this->render('ispreference', [
-            'dataProvider' => $dataProvider,
-        ]);
-    }
 }
