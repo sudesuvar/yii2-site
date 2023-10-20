@@ -31,17 +31,23 @@ class Setting extends Component
 
     public function getValue($name)
     {
-        $settingModel=self::findSetting($name);
-        $preferenceModel=self::findPreference($settingModel->id);
+        if(isset(\Yii::$app->user->id))
+        {
+            $settingModel=self::findSetting($name);
+            $preferenceModel=self::findPreference($settingModel->id);
 
-        if($preferenceModel)
-        {
-            return self::decode(self::findPreference($settingModel->id)->value);
+            if($preferenceModel)
+            {
+                return self::decode(self::findPreference($settingModel->id)->value);
+            }
+            else
+            {
+                return self::decode(self::findSetting($name)->value);
+            }
+
         }
-        else
-        {
-            return self::decode(self::findSetting($name)->value);
-        }
+        return self::decode(self::findSetting($name)->value);
+
     }
 
     public static function getSetting($name)
