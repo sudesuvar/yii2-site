@@ -4,7 +4,7 @@ use portalium\menu\models\Menu;
 use portalium\menu\models\MenuItem;
 use yii\db\Migration;
 
-class m010101_010102_site_menu extends Migration
+class m010101_010103_site_menu extends Migration
 {
 
     public function up()

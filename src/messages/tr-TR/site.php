@@ -110,7 +110,12 @@ return [
     /* VerifyEmail */
 
     'Verify email token cannot be blank.'=>'Doğrulama e-posta belirteci boş olamaz.',
-    'Wrong verify email token.'=>'Yanlış doğrulama e-posta belirteci.'
-    
+    'Wrong verify email token.'=>'Yanlış doğrulama e-posta belirteci.',
+
+    /*Preference*/
+
+    'Preferences'=>'Tercihler',
+    'There are an error. Settings not saved.'=>'Bir hata var. Ayarlar kaydedilmedi.'
+
 ];
 
