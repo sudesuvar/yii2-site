@@ -23,7 +23,7 @@ class m010101_010102_site_setting extends Migration
             'type' => Form::TYPE_DROPDOWNLIST,
             'config' => json_encode([
                 'model' => [
-                    'class' => 'portalium\site\models\DbManager', 
+                    'class' => 'portalium\site\models\DbManager',
                     'map' => [
                         'key' => 'name' ,
                         'value' => 'name'
@@ -43,7 +43,7 @@ class m010101_010102_site_setting extends Migration
             'type' => Form::TYPE_DROPDOWNLIST,
             'config' => json_encode([
                 'model' => [
-                    'class' => 'portalium\site\models\DbManager', 
+                    'class' => 'portalium\site\models\DbManager',
                     'map' => [
                         'key' => 'name' ,
                         'value' => 'name'
@@ -58,6 +58,6 @@ class m010101_010102_site_setting extends Migration
 
     public function down()
     {
-        $this->dropTable('setting');
+        $this->dropTable(Module::$tablePrefix . 'setting');
     }
 }

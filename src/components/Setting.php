@@ -2,6 +2,7 @@
 
 namespace portalium\site\components;
 
+use portalium\site\models\Preference;
 use yii\base\Component;
 use portalium\site\Module;
 use yii\helpers\ArrayHelper;
@@ -30,12 +31,38 @@ class Setting extends Component
 
     public function getValue($name)
     {
+        if(isset(\Yii::$app->user->id))
+        {
+            $settingModel=self::findSetting($name);
+            $preferenceModel=self::findPreference($settingModel->id);
+
+            if($preferenceModel)
+            {
+                return self::decode(self::findPreference($settingModel->id)->value);
+            }
+            else
+            {
+                return self::decode(self::findSetting($name)->value);
+            }
+
+        }
         return self::decode(self::findSetting($name)->value);
+
     }
 
     public static function getSetting($name)
     {
-        return self::findSetting($name);
+        $settingModel=self::findSetting($name);
+        $preferenceModel=self::findPreference($settingModel->id);
+
+        if($preferenceModel)
+        {
+            return self::findPreference($settingModel->id);;
+        }
+        else
+        {
+            return self::findSetting($name);
+        }
     }
 
     private function decode($value)
@@ -50,6 +77,18 @@ class Setting extends Component
         }
 
         throw new NotFoundHttpException(Module::t('The requested '.$name.' setting does not exist.'));
+    }
+
+    private static function findPreference($id)
+    {
+        $id_user=\Yii::$app->user->id;
+        $id_workspace=\Yii::$app->workspace->id;
+
+        if (($preference = Preference::findOne(['id_setting' => $id,'id_user'=>$id_user,'id_workspace'=>$id_workspace])) !== null) {
+            return $preference;
+        }
+
+       return false;
     }
 
     function isJson($value) {
