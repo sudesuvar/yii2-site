@@ -177,7 +177,7 @@ class m010101_010101_site_setting extends Migration
             'label' => 'User Status',
             'value' => '1',
             'type' => Form::TYPE_RADIOLIST,
-            'config' => json_encode([ 1 => 'Active', 0 => 'Passive'])
+            'config' => json_encode([ 1 => 'Email Confirmation', 0 => 'Disable'])
         ]);
         $this->insert(Module::$tablePrefix . 'setting', [
             'module' => 'site',

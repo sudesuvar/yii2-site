@@ -9,7 +9,7 @@ class UserPreferenceManagement extends ActiveRecord
 {
     public static function tableName()
     {
-        return '{{' . Module::$tablePrefix . 'preference_management}}';
+        return '{{' . Module::$tablePrefix . 'preference-management}}';
     }
 
     public function rules()
