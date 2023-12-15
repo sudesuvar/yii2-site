@@ -165,6 +165,15 @@ class m010101_010101_site_setting extends Migration
         ]);
         $this->insert(Module::$tablePrefix . 'setting', [
             'module' => 'site',
+            'name' => 'site::actions_permissions',
+            'label' => 'Action Permissions',
+            'value' => '',
+            'type' => 4, //Form::TYPE_HIDDENINPUT,
+            'config' => ''
+        ]);
+        $this->insert(Module::$tablePrefix . 'setting', [
+            'module' => 'site',
+
             'name' => 'site::userStatus',
             'label' => 'User Status',
             'value' => '1',
