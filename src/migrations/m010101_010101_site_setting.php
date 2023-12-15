@@ -173,6 +173,7 @@ class m010101_010101_site_setting extends Migration
         ]);
         $this->insert(Module::$tablePrefix . 'setting', [
             'module' => 'site',
+
             'name' => 'site::userStatus',
             'label' => 'User Status',
             'value' => '1',
