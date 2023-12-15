@@ -11,7 +11,6 @@ class Mailer extends CoreMailer
     public function init()
     {
         parent::init();
-
         $transport = [
             'class' => SmtpTransport::class,
             'host' => Yii::$app->setting->getValue('smtp::server'),

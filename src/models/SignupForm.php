@@ -92,7 +92,7 @@ class SignupForm extends Model
 
     protected function sendEmail($user)
     {
-        Yii::$app->mailer->setViewPath(Yii::getAlias('@portalium/site/mail'));
+        Yii::$app->mailerSite->setViewPath(Yii::getAlias('@portalium/site/mail'));
         return Yii::$app
             ->mailer
             ->compose(
