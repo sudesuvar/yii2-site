@@ -49,9 +49,10 @@ class ResendVerificationEmailForm extends Model
             return false;
         }
 
-        Yii::$app->mailer->setViewPath(Yii::getAlias('@portalium/site/mail'));
+        Yii::$app->site->mailer->setViewPath(Yii::getAlias('@portalium/site/mail'));
 
         return Yii::$app
+            ->site
             ->mailer
             ->compose(
                 ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'],
