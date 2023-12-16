@@ -67,8 +67,8 @@ class Module extends \portalium\base\Module
             'setting' => [
                 'class' => 'portalium\site\components\Setting',
             ],
-            'mailerSite' => [
-                'class' => 'portalium\site\components\Mailer',
+            'site' => [
+                'class' => 'portalium\site\components\Site',
             ],
         ];
     }
