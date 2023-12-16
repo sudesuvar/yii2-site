@@ -66,7 +66,10 @@ class Module extends \portalium\base\Module
         return [
             'setting' => [
                 'class' => 'portalium\site\components\Setting',
-            ]
+            ],
+            'site' => [
+                'class' => 'portalium\site\components\Site',
+            ],
         ];
     }
 

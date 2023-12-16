@@ -50,15 +50,16 @@ class PasswordResetRequestForm extends Model
             }
         }
 
-        Yii::$app->mailer->setViewPath(Yii::getAlias('@portalium/site/mail'));
-
+        Yii::$app->site->mailer->setViewPath(Yii::getAlias('@portalium/site/mail'));
+        
         return Yii::$app
+            ->site
             ->mailer
             ->compose(
                 ['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'],
                 ['user' => $user]
             )
-            ->setFrom([Setting::findOne(['name' => 'email::address'])->value => Setting::findOne(['name' => 'email::displayname'])->value])
+            ->setFrom(Setting::findOne(['name' => 'email::address'])->value)
             ->setTo($this->email)
             ->setSubject(Module::t('Password reset for {email_displayname}!',['email_displayname' => Setting::findOne(['name' => 'email::displayname'])->value]))
             ->send();
