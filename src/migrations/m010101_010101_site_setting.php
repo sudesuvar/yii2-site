@@ -155,14 +155,7 @@ class m010101_010101_site_setting extends Migration
             'type' => Form::TYPE_RADIOLIST,
             'config' => json_encode([ 1 => 'Allow', 0 => 'Deny'])
         ]);
-        $this->insert(Module::$tablePrefix . 'setting', [
-            'module' => 'site',
-            'name' => 'site::verifyEmail',
-            'label' => 'Register Confirmation',
-            'value' => '1',
-            'type' => Form::TYPE_RADIOLIST,
-            'config' => json_encode([ 1 => 'Email Confirmation', 0 => 'Disable'])
-        ]);
+
         $this->insert(Module::$tablePrefix . 'setting', [
             'module' => 'site',
             'name' => 'site::actions_permissions',
@@ -171,14 +164,7 @@ class m010101_010101_site_setting extends Migration
             'type' => 4, //Form::TYPE_HIDDENINPUT,
             'config' => ''
         ]);
-        $this->insert(Module::$tablePrefix . 'setting', [
-            'module' => 'site',
-            'name' => 'site::userStatus',
-            'label' => 'User Status',
-            'value' => '1',
-            'type' => Form::TYPE_RADIOLIST,
-            'config' => json_encode([ 1 => 'Email Confirmation', 0 => 'Disable'])
-        ]);
+
         $this->insert(Module::$tablePrefix . 'setting', [
             'module' => 'site',
             'name' => 'email::address',
@@ -221,7 +207,7 @@ class m010101_010101_site_setting extends Migration
             'type' => Form::TYPE_RADIOLIST,
             'config' => json_encode([ 1 => 'Active', 0 => 'Passive'])
         ]);
-
+        
         $this->insert(Module::$tablePrefix . 'setting', [
             'module' => 'site',
             'name' => 'smtp::port',
