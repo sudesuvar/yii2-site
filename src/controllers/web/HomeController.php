@@ -49,17 +49,17 @@ class HomeController extends WebController
 
     public function actionAbout()
     {
-        if (Setting::findOne(['name' => 'page::about'])->value)
+        if (Yii::$app->setting->getValue('page::about'))
             return $this->render('about');
         return $this->goHome();
     }
 
     public function actionContact()
     {
-        if (Setting::findOne(['name' => 'form::contact'])->value) {
+        if (Yii::$app->setting->getValue('form::contact')) {
             $model = new ContactForm();
             if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-                if ($model->sendEmail(Setting::findOne(['name' => 'email::address'])->value)) {
+                if ($model->sendEmail(Yii::$app->setting->getValue('email::address'))) {
                     Yii::$app->session->addFlash('success', Module::t('Thank you for contacting us. We will respond to you as soon as possible.'));
                 } else {
                     Yii::$app->session->addFlash('error', Module::t('There was an error sending your message.'));

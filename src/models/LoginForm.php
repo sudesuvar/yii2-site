@@ -59,17 +59,35 @@ class LoginForm extends Model
                     return Yii::$app->user->login($user, $this->rememberMe ? 3600 * 24 * 30 : 0);
                 } else {
                     Yii::$app->session->set("login_status", false);
+                    if (!$user->verification_token){
+                        $user->generateEmailVerificationToken();
+                        $user->save(false) ? $user : null;
+                    }
                     $verifyLink = Yii::$app->urlManager->createAbsoluteUrl(['site/auth/verify-email', 'token' => $user->verification_token]);
                     $emailVerificationLink = Yii::$app->urlManager->createAbsoluteUrl(['/site/auth/resend-verification-email']);
-                    Yii::$app->session->addFlash('error', 'Your account is not active. Please activate your account.<a href="' . $emailVerificationLink . '"> '/*.$verifyLink*/ . "Click here!" . '</a>');
+                    // Yii::$app->session->addFlash('error', 'Your account is not active. Please activate your account.<a href="' . $emailVerificationLink . '"> '/*.$verifyLink*/ . "Click here!" . '</a>');
+                    Yii::$app->session->addFlash('error', 'Your account is not active. Please activate your account.');
+                    // send email
+                    Yii::$app->site->mailer->setViewPath(Yii::getAlias('@portalium/site/mail'));
+                    Yii::$app
+                        ->site
+                        ->mailer
+                        ->compose(
+                            ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'],
+                            ['user' => $user]
+                        )
+                        ->setFrom(Yii::$app->setting->getValue('email::address'))
+                        ->setTo($user->email)
+                        ->setSubject(Module::t('Account activation for {email_displayname}!', ['email_displayname' => Yii::$app->setting->getValue('email::displayname')]))
+                        ->send();
                     return false;
                 }
             } else {
                 //If "User Status" is selected as "Active" in SMTP.
-                if (Yii::$app->setting->getValue('site::userStatus')) {
+                if (Yii::$app->setting->getValue('site::userStatus') == User::STATUS_ACTIVE) {
                     $user->status = User::STATUS_ACTIVE;
                     $user->save(false) ? $user : null;
-                } else {
+                } else if (Yii::$app->setting->getValue('site::userStatus') == User::STATUS_PASSIVE) {
                     $user->status = User::STATUS_PASSIVE;
                     $user->save(false) ? $user : null;
                 }
