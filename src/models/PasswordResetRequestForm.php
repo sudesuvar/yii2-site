@@ -59,9 +59,9 @@ class PasswordResetRequestForm extends Model
                 ['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'],
                 ['user' => $user]
             )
-            ->setFrom(Setting::findOne(['name' => 'email::address'])->value)
+            ->setFrom(Yii::$app->setting->getValue('email::address'))
             ->setTo($this->email)
-            ->setSubject(Module::t('Password reset for {email_displayname}!',['email_displayname' => Setting::findOne(['name' => 'email::displayname'])->value]))
+            ->setSubject(Module::t('Password reset for {email_displayname}!',['email_displayname' => Yii::$app->setting->getValue('email::displayname')]))
             ->send();
     }
 }
