@@ -202,10 +202,10 @@ class m010101_010101_site_setting extends Migration
         $this->insert(Module::$tablePrefix . 'setting', [
             'module' => 'site',
             'name' => 'site::userStatus',
-            'label' => 'User Status',
+            'label' => 'User Registration Status',
             'value' => '1',
             'type' => Form::TYPE_RADIOLIST,
-            'config' => json_encode([ 1 => 'Active', 0 => 'Passive'])
+            'config' => json_encode([ 10 => 'Active', 20 => 'Passive'])
         ]);
         
         $this->insert(Module::$tablePrefix . 'setting', [
