@@ -2,11 +2,11 @@
 
 namespace portalium\site\controllers\web;
 
+use InvalidArgumentException;
 use portalium\site\models\ResendVerificationEmailForm;
 use Yii;
 use portalium\site\Module;
 use yii\filters\AccessControl;
-use portalium\site\models\Setting;
 use yii\base\InvalidParamException;
 use portalium\site\models\LoginForm;
 use yii\web\BadRequestHttpException;
@@ -15,7 +15,6 @@ use portalium\site\models\ResetPasswordForm;
 use portalium\web\Controller as WebController;
 use portalium\site\models\PasswordResetRequestForm;
 use portalium\site\models\VerifyEmailForm;
-use portalium\user\models\User;
 
 class AuthController extends WebController
 {
@@ -26,7 +25,7 @@ class AuthController extends WebController
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['login', 'logout', 'signup', 'request-password-reset', 'reset-password', 'verify-email'],
+                'only' => ['login', 'logout', 'signup', 'request-password-reset', 'reset-password'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -85,12 +84,9 @@ class AuthController extends WebController
             throw new BadRequestHttpException($e->getMessage());
         }
 
-
         if (($user = $model->verifyEmail()) &&Yii::$app->user->login($user)) {
-
             return $this->goHome();
         }
-
         Yii::$app->session->setFlash('error', 'Sorry, we are unable to verify your account with provided token.');
         return $this->goHome();
     }
@@ -120,7 +116,7 @@ class AuthController extends WebController
 
     public function actionSignup()
     {
-        if (Setting::findOne(['name' => 'form::signup'])->value) {
+        if (Yii::$app->setting->getValue('form::signup')) {
             $model = new SignupForm();
             if ($model->load(Yii::$app->request->post())) {
                 if ($user = $model->signup()) {

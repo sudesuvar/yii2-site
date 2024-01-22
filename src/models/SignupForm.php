@@ -64,27 +64,19 @@ class SignupForm extends Model
         $user->access_token = \Yii::$app->security->generateRandomString();
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
-
-        ;
-
-
-
-        if ($user->save() && Yii::$app->setting->getValue('site::verifyEmail'))
-        {
-            Yii::$app->session->setFlash('success', 'Your registration has been successfully completed. Confirm the confirmation e-mail sent to your e-mail.');
-            if($this->sendEmail($user))
-            {
+        $user->status = Yii::$app->setting->getValue('site::userStatus');
+        if ($user->save()) {
+            if (Yii::$app->setting->getValue('site::verifyEmail')) {
+                Yii::$app->session->setFlash('success', 'Your registration has been successfully completed. Confirm the confirmation e-mail sent to your e-mail.');
+                if ($this->sendEmail($user)) {
+                    \Yii::$app->trigger(Module::EVENT_ON_SIGNUP, new Event(['payload' => $user]));
+                    return $user;
+                }
+            } else if (!(Yii::$app->setting->getValue('site::verifyEmail'))) {
+                Yii::$app->session->setFlash('success', 'Your registration has been successfully completed.');
                 \Yii::$app->trigger(Module::EVENT_ON_SIGNUP, new Event(['payload' => $user]));
                 return $user;
             }
-        }
-
-        else if($user->save() && !(Yii::$app->setting->getValue('site::verifyEmail')))
-        {
-            Yii::$app->session->setFlash('success', 'Your registration has been successfully completed.');
-            \Yii::$app->trigger(Module::EVENT_ON_SIGNUP, new Event(['payload' => $user]));
-            return $user;
-
         }
 
         return null;
@@ -100,7 +92,7 @@ class SignupForm extends Model
                 ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'],
                 ['user' => $user]
             )
-            ->setFrom([Setting::findOne(['name' => 'email::address'])->value => Setting::findOne(['name' => 'email::displayname'])->value])
+            ->setFrom([Yii::$app->setting->getValue('email::address') => Yii::$app->setting->getValue('email::displayname')])
             ->setTo($this->email)
             ->setSubject('Account registration at ' . Yii::$app->name)
             ->send();

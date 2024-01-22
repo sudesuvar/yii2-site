@@ -23,7 +23,7 @@ class AuthController extends RestController
 
     public function actionLogin()
     {
-        if(!Setting::findOne(['name' => 'api::login'])->value)
+        if(!Yii::$app->setting->getValue(['api::login']))
             return $this->error(['APILogin' => Module::t("Login denied with API")]);
 
         $model = new LoginForm();
@@ -40,7 +40,7 @@ class AuthController extends RestController
 
 	public function actionSignup()
 	{
-	    if(!Setting::findOne(['name' => 'api::signup'])->value)
+	    if(!Yii::$app->setting->getValue('api::signup'))
             return $this->error(['APISigup' => Module::t("Signup denied with API")]);
 
         $model = new SignupForm();
