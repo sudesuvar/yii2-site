@@ -6,6 +6,7 @@ use Yii;
 use portalium\base\Event;
 use portalium\user\Module as UserModule;
 use portalium\site\components\TriggerActions;
+use portalium\site\models\Setting;
 
 class Module extends \portalium\base\Module
 {
@@ -56,7 +57,7 @@ class Module extends \portalium\base\Module
     public static function moduleInit()
     {
         if (!Yii::$app instanceof \yii\console\Application) 
-            Yii::$app->language = (Yii::$app->session->get('lang') != "") ? Yii::$app->session->get('lang') : Yii::$app->setting->getValue(['name' => 'app::language']) ;
+            Yii::$app->language = (Yii::$app->session->get('lang') != "") ? Yii::$app->session->get('lang') : Setting::findOne(['name' => 'app::language'])->value;
 
         self::registerTranslation('site','@portalium/site/messages',[
             'site' => 'site.php',
