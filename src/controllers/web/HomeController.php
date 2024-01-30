@@ -79,7 +79,8 @@ class HomeController extends WebController
     public function actionLang($lang)
     {
         Yii::$app->session->set('lang', $lang);
-        return $this->goBack(Yii::$app->request->referrer);
+        // return $this->goBack(Yii::$app->request->referrer);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     public function actionPrivacy()
