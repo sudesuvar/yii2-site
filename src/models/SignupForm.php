@@ -33,6 +33,13 @@ class SignupForm extends Model
             ['password', 'string', 'min' => 6],
             ['first_name', 'safe'],
             ['last_name', 'safe'],
+            [
+                ['verifyCode'], \himiklab\yii2\recaptcha\ReCaptchaValidator3::className(),
+                'secret' => '6LdtOVspAAAAABzrPaWYTrqkSq4ppo6ZX1Z_vuzn',
+                'threshold' => '0.5',
+                'action' => 'signup',
+            ],
+
 
         ];
     }
@@ -50,6 +57,7 @@ class SignupForm extends Model
 
     public function signup()
     {
+
         if (!$this->validate()) {
             return null;
         }
@@ -77,6 +85,8 @@ class SignupForm extends Model
                 \Yii::$app->trigger(Module::EVENT_ON_SIGNUP, new Event(['payload' => $user]));
                 return $user;
             }
+        } else {
+
         }
 
         return null;

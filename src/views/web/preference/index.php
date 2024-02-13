@@ -15,7 +15,7 @@ use portalium\theme\widgets\Panel;
 /** @var portalium\site\models\PreferenceSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title =Module::t('Preferences');
+$this->title =Module::t('Preference');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?php $form = ActiveForm::begin(['action' => Url::to(['preference/update']), 'id' => 'preference-update', 'method' => 'post', 'class' => 'form-horizontal']); ?>
