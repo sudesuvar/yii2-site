@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /** @var portalium\site\models\Preference $model */
 
 $this->title = 'Update Preference: ' . $model->id_preference;
-$this->params['breadcrumbs'][] = ['label' => 'Preferences', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Preference', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id_preference, 'url' => ['view', 'id_preference' => $model->id_preference]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>

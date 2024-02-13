@@ -33,10 +33,13 @@ AppAsset::register($this);
                     <?= $form->field($model, 'email', ['options'=>['class' => 'form-attribute mb-3 row']])
                         ->textInput(['class' => 'form-control form-control-lg', 'placeholder' => Module::t('Email')]) ?>
                     <?= $form->field($model, 'password', ['options'=>['class' => 'form-attribute mb-3 row']])->passwordInput(['class' => 'form-control form-control-lg', 'placeholder' => Module::t('Password')]) ?>
-                    <?= $form->field($model, 'verifyCode', ['options'=>['style'=>'margin-left:10px;']])->widget(Captcha::className(), [
-                        'template' => '<div class="row"><div class="col-lg-6">{image}</div><div class="col-lg-6">{input}</div></div>',
-                        'captchaAction'=>'/site/auth/captcha'
-                    ]) ?>
+                    <?= $form->field($model, 'verifyCode')->widget(
+                      \himiklab\yii2\recaptcha\ReCaptcha3::className(),
+                    [
+                     'siteKey' => '6LdtOVspAAAAAGGnMu_yPK2hlyyNAjmiQJz0v7Ws', // unnecessary is reCaptcha component was set up
+                     'action' => 'signup', 
+                    ]
+                    ) ?>
                     <div class="d-grid" style="margin-left:10px; margin-right:10px;">
                         <?= '<div class = "clearfix"></div>' .Html::submitButton(Module::t('Signup'), ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
                     </div>

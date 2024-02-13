@@ -48,7 +48,12 @@ class Module extends \portalium\base\Module
                     'menu' => 'web',
                     'type' => 'action',
                     'route' => '/site/setting/index',
-                ]
+                ],
+                [
+                    'menu' => 'web',
+                    'type' => 'action',
+                    'route' => '/site/preference/index',
+                ],
             ],
         ];
         return $menuItems;

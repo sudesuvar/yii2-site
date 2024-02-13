@@ -44,7 +44,7 @@ class AuthController extends WebController
         return parent::beforeAction($action);
     }
 
-    public function actions()
+  /*  public function actions()
     {
         return [
             'captcha' => [
@@ -53,7 +53,7 @@ class AuthController extends WebController
             ]
         ];
     }
-
+*/
 
     public function actionIndex()
     {
@@ -68,6 +68,9 @@ class AuthController extends WebController
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            if (Yii::$app->setting->getValue('app::language')) {
+                Yii::$app->session->set('lang', Yii::$app->setting->getValue('app::language'));
+            }
             return $this->goBack();
         } else {
             return $this->render('login', [
@@ -119,6 +122,7 @@ class AuthController extends WebController
         if (Yii::$app->setting->getValue('form::signup')) {
             $model = new SignupForm();
             if ($model->load(Yii::$app->request->post())) {
+               
                 if ($user = $model->signup()) {
                     if (Yii::$app->getUser()->login($user)) {
                         return $this->goHome();
