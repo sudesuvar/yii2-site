@@ -1,0 +1,15 @@
+#sidebar ul li > a{
+    border: none !important;
+}
+#sidebar ul li > a:hover {
+    border: none !important;
+}
+#sidebar .vertical-view .dropdown-toggle::after {
+    right: 160px !important;
+}
+#avatar {
+    width: 59px;
+    height: 35.5px;
+}
+
+
