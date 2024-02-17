@@ -203,7 +203,7 @@ class m010101_010101_site_setting extends Migration
             'module' => 'site',
             'name' => 'site::userStatus',
             'label' => 'User Registration Status',
-            'value' => '10',
+            'value' => '1',
             'type' => Form::TYPE_RADIOLIST,
             'config' => json_encode([ 10 => 'Active', 20 => 'Passive'])
         ]);

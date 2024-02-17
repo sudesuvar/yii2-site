@@ -37,7 +37,7 @@ class DbManager extends Model
         $query->select(['name', 'description'])
             ->from('auth_item')
             ->where(['type' => 1]);
-        $dataProvider = new \yii\data\ActiveDataProvider([
+        $dataProvider = new \portalium\data\ActiveDataProvider([
             'query' => $query,
             'pagination' => [
                 'pageSize' => 10,

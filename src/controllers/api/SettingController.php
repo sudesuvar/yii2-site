@@ -33,7 +33,7 @@ class SettingController extends RestActiveController
 
             $model = new $this->modelClass;
             $query = $model::find();
-            $dataProvider = new \yii\data\ActiveDataProvider([
+            $dataProvider = new \portalium\data\ActiveDataProvider([
                 'query' => $query,
             ]);
 
