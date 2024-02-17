@@ -28,11 +28,12 @@ class Language extends Widget
     {
         $languages = Yii::$app->setting->getConfig('app::language');
         $langItems = [];
-
+        $active = Yii::$app->language;
         foreach ($languages as $key => $value){
             $langItems[] = [
                 'label' => Module::t($value),
                 'url' => ['/site/home/lang','lang' => $key],
+                'active' => $active == $key,
             ];
         }
 
