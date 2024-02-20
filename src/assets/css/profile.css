@@ -1,15 +1,15 @@
-#sidebar ul li > a{
-    border: none !important;
-}
-#sidebar ul li > a:hover {
-    border: none !important;
-}
-#sidebar .vertical-view .dropdown-toggle::after {
-    right: 160px !important;
-}
-#avatar {
-    width: 59px;
-    height: 35.5px;
+.profile-picture {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 19px;
 }
 
-
+.profile-picture.initials {
+    background-color: black;
+    color: #fff;
+    font-weight: bold;
+    font-size: 18px;
+}
