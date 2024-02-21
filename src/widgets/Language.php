@@ -43,7 +43,6 @@ class Language extends Widget
             'items' => $langItems,
             'display' => $this->display,
         ];
-
         return Nav::widget([
             'options' => $this->options,
             'items' => $menuItems,
