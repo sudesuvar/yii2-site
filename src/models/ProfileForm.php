@@ -56,7 +56,6 @@ class ProfileForm extends Model
 
     public function updateUser()
     {
-
         if (!$this->validate()) {
             return null;
         }
@@ -71,12 +70,7 @@ class ProfileForm extends Model
                 $user->username = $this->username;
                 $user->email = $this->email;
                 $user->id_avatar = $this->id_avatar;
-                $user->access_token = \Yii::$app->security->generateRandomString();
-                $user->generateAuthKey();
-                $user->generateEmailVerificationToken();
-                $user->status = Yii::$app->setting->getValue('site::userStatus');
-                $user->save();
-                return 1;
+                return $user->save();
             }
             //kullanıcı şifresini değiştirecek
             else {
@@ -87,15 +81,11 @@ class ProfileForm extends Model
                     $user->username = $this->username;
                     $user->email = $this->email;
                     $user->id_avatar = $this->id_avatar;
-                    $user->access_token = \Yii::$app->security->generateRandomString();
-                    $user->generateAuthKey();
-                    $user->generateEmailVerificationToken();
                     $user->setPassword($this->password);
-                    $user->status = Yii::$app->setting->getValue('site::userStatus');
-                    $user->save();
-                    return 1;
+                    return $user->save();
                 } else {
-                    return -1;
+                    
+                    return false;
                 }
             }
         }

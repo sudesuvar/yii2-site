@@ -15,13 +15,11 @@
 }
 .dropdown-menu .profile-picture {
     display: inline-block;
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     text-align: center;
-    line-height: 19px;
-
-    line-height: 100px; 
+    line-height: 80px; 
     vertical-align: middle;
     font-size: 50px; 
 }

@@ -4,12 +4,13 @@ use portalium\site\bundles\ProfileAsset;
 
 ProfileAsset::register($this);
 
+$iconSize =( isset($style['iconSize'])&& $style['iconSize']!='') ? $style['iconSize'] : 24;
 ?>
 
-<li class="nav-item dropdown me-lg-0 "style="margin-bottom: 0.5rem;">
+<li class="nav-item dropdown me-lg-0 ">
     <a href="#" id="avatar" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"  aria-expanded="false">
         <?php if ($model !== null) : ?>
-            <img src="<?= $filePath ?>" alt="<?= $title ?>" width="24" height="24" class="rounded-circle me-2" >
+            <img src="<?= $filePath ?>" alt="<?= $title ?>" width="<?= $iconSize ?>" height="<?= $iconSize ?>" class="rounded-circle me-2" >
         <?php else : ?>
             <span class="profile-picture initials"><?= $usernameInitial ?></span>
         <?php endif; ?>
@@ -18,7 +19,7 @@ ProfileAsset::register($this);
         <li>
             <div class="d-flex flex-column text-center p-3">
                 <?php if ($model !== null) : ?>
-                    <img src="<?= $filePath ?>" alt="<?= $title ?>" width="200" height="200" class="rounded-circle mx-auto mb-3">
+                    <img src="<?= $filePath ?>" alt="<?= $title ?>" width="80" height="80" class="rounded-circle mx-auto mb-3">
                 <?php else : ?>
                     <span class="profile-picture initials rounded-circle mx-auto mb-3"><?= $usernameInitial ?></span>
                 <?php endif; ?>

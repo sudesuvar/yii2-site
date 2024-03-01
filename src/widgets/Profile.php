@@ -6,13 +6,19 @@ use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
 use portalium\storage\models\Storage;
+use portalium\user\models\User;
 
 class Profile extends Widget
 {
-
+ public $display;
+ public $style;
   //işlemleri başlatan fonksiyon
     public function init()
     { 
+      parent::init();
+      $this->style = '{"icon":"","color":"","iconSize":"","display":"","childDisplay":"1","placement":""}';
+      $this->style = json_decode($this->style, true);
+      
    // yapıcı method
     }
 
@@ -22,12 +28,13 @@ class Profile extends Widget
            //yetki kontrolü
           // widgets altındaki viewse render et
 
+          
           if(Yii::$app->user->isGuest == true)
           {
             return false;
           }
           else{
-            $user = Yii::$app->user->getIdentity();
+            $user = User::findOne(Yii::$app->user->id);
             $username = $user->username;
             $last_name = $user->last_name;
             $first_name = $user->first_name;
@@ -60,6 +67,8 @@ class Profile extends Widget
                 'title' => $title,
                 'usernameInitial' => $usernameInitial,
                 'filePath' => $filePath,
+                'style' => $this->style,
+                
             ]);
           }
     }
