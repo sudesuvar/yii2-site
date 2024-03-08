@@ -123,6 +123,7 @@ return [
     
     'Profile' => 'Profil',
     'Edit Profile' => 'Profili Düzenle',
+    'Edit Password' =>'Şifreyi Düzenle',
     'First Name' => 'İsim',
     'Last Name' =>'Soy isim',
     'Old Password' =>'Eski Şifre',
