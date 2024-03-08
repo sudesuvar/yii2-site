@@ -1,6 +1,7 @@
 <?php
 
 use portalium\site\bundles\AppAsset;
+use portalium\site\controllers\web\ProfileController;
 use yii\helpers\Html;
 use portalium\theme\widgets\ActiveForm;
 use portalium\theme\widgets\Panel;
@@ -13,28 +14,9 @@ use portalium\site\Module;
 $this->title = Module::t('Edit Profile');
 AppAsset::register($this);
 
-
-$js = <<< JS
-    // Password alanını kontrol etmek için
-    $('#profileform-password').on('input', function() {
-        var passwordValue = $(this).val();
-
-        // Eğer password alanı dolu ise
-        if (passwordValue.trim() !== '') {
-            // Old password alanını zorunlu hale getir
-            $('#profileform-old_password').prop('required', true);
-        } else {
-            // Old password alanını zorunlu olmaktan çıkar
-            $('#profileform-old_password').prop('required', false);
-        }
-    });
-JS;
-
-$this->registerJs($js);
 ?>
 
-
-<?php $form = ActiveForm::begin(); ?>
+<?php $form = ActiveForm::begin([ 'method' => 'post','action' =>['profile/edit']]); ?>
 <?php Panel::begin([
     'title' => Html::encode($this->title),
     'actions' => [
@@ -45,14 +27,11 @@ $this->registerJs($js);
         ]
     ],
 ]) ?>
-    <?= $form->field($model, 'first_name')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'last_name')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'old_password')->passwordInput(['class' => 'form-control form-control-lg']) ?>
-
-    <?= $form->field($model, 'password')->passwordInput(['class' => 'form-control form-control-lg']) ?>
-    <?= $form->field($model, "id_avatar")->label("Profile")->widget("\portalium\storage\widgets\FilePicker", [
+    <?= $form->field($modelprofile, 'first_name')->label(Module::t('First Name'))->textInput(['maxlength' => true]) ?>
+    <?= $form->field($modelprofile, 'last_name')->label(Module::t('Last Name'))->textInput(['maxlength' => true]) ?>
+    <?= $form->field($modelprofile, 'username')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($modelprofile, 'email')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($modelprofile, "id_avatar")->label(Module::t('Profile'))->widget("\portalium\storage\widgets\FilePicker", [
     'multiple' => 0,
     'attributes' => ['id_storage'],
     'name' => 'app::logo_wide',
@@ -62,3 +41,30 @@ $this->registerJs($js);
     
 <?php Panel::end() ?>
 <?php ActiveForm::end(); ?>
+
+<?php
+
+$this->title = Module::t('Edit Password');
+AppAsset::register($this);
+
+?>
+
+<?php $form2 = ActiveForm::begin([ 'method' => 'post','action' =>['profile/edit-password']]); ?>
+<?php Panel::begin([
+    'title' => Html::encode($this->title),
+    'actions' => [
+        'header' => [
+        ],
+        'footer' => [
+            Html::submitButton(Module::t( 'Save'), ['class' => 'btn btn-success']),
+        ]
+    ],
+]) ?>
+       
+    
+    <?= $form2->field($modelpassword, 'old_password')->label(Module::t('Old Password'))->passwordInput(['class' => 'form-control form-control-lg']) ?>
+    <?= $form2->field($modelpassword, 'password')->passwordInput(['class' => 'form-control form-control-lg']) ?>
+    
+<?php Panel::end() ?>
+<?php ActiveForm::end(); ?>
+

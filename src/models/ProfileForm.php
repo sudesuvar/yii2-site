@@ -2,7 +2,6 @@
 
 namespace portalium\site\models;
 
-use portalium\base\Event;
 use yii\base\Model;
 use portalium\site\Module;
 use Yii;
@@ -14,9 +13,7 @@ class ProfileForm extends Model
     public $first_name;
     public $last_name;
     public $email;
-    public $password;
     public $id_avatar;
-    public $old_password;
 
     public function rules()
     {
@@ -31,11 +28,10 @@ class ProfileForm extends Model
             ['email', 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => '\portalium\user\models\User', 'filter' => function ($query) {
                 $query->andWhere(['not', ['id_user' => Yii::$app->user->identity->id_user]]);
-            }, 'message' => Module::t('This email address has already been taken.')],            ['password', 'string', 'min' => 6],
+            }, 'message' => Module::t('This email address has already been taken.')],
             ['first_name', 'safe'],
             ['last_name', 'safe'],
             ['id_avatar', 'safe'],
-            ['old_password', 'string', 'min' => 6],
         ];
 
         return $rules;
@@ -49,8 +45,6 @@ class ProfileForm extends Model
             'last_name' => Module::t('Last Name'),
             'username' => Module::t('Username'),
             'email' => Module::t('Email'),
-            'password' => Module::t('Password')
-            // 'id_avatar' =>Module::t('Id Avatar'),
         ];
     }
 
@@ -63,31 +57,12 @@ class ProfileForm extends Model
 
         if ($user) {
 
-            //kullanıcı şifresini değiştirmeyecek  
-            if ($this->password == null) {
-                $user->first_name = $this->first_name;
-                $user->last_name = $this->last_name;
-                $user->username = $this->username;
-                $user->email = $this->email;
-                $user->id_avatar = $this->id_avatar;
-                return $user->save();
-            }
-            //kullanıcı şifresini değiştirecek
-            else {
-                if ($user->validatePassword($this->old_password)) {
-                   
-                    $user->first_name = $this->first_name;
-                    $user->last_name = $this->last_name;
-                    $user->username = $this->username;
-                    $user->email = $this->email;
-                    $user->id_avatar = $this->id_avatar;
-                    $user->setPassword($this->password);
-                    return $user->save();
-                } else {
-                    
-                    return false;
-                }
-            }
+            $user->first_name = $this->first_name;
+            $user->last_name = $this->last_name;
+            $user->username = $this->username;
+            $user->email = $this->email;
+            $user->id_avatar = $this->id_avatar;
+            return $user->save();
         }
     }
 }

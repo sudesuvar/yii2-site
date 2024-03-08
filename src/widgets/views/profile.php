@@ -1,18 +1,21 @@
 <?php
 
 use portalium\site\bundles\ProfileAsset;
+use portalium\site\Module;
 
 ProfileAsset::register($this);
 
-$iconSize =( isset($style['iconSize'])&& $style['iconSize']!='') ? $style['iconSize'] : 24;
+$iconSize =( isset($style['iconSize'])&& $style['iconSize']!='') ? $style['iconSize'] : 20;
 ?>
 
 <li class="nav-item dropdown me-lg-0 ">
-    <a href="#" id="avatar" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"  aria-expanded="false">
+    <a href="#"class="nav-link dropdown-toggle profile flex-column" data-bs-toggle="dropdown"  aria-expanded="false">
         <?php if ($model !== null) : ?>
-            <img src="<?= $filePath ?>" alt="<?= $title ?>" width="<?= $iconSize ?>" height="<?= $iconSize ?>" class="rounded-circle me-2" >
+            <img src="<?= $filePath ?>" alt="<?= $title ?>" width="<?= $iconSize ?>" height="<?= $iconSize ?>" class="rounded-circle me-2 flex-column"style="margin-top:0.2px; margin-left: -5px;" >
+            <span class="photo-label flex-column"style="vertical-align: middle;margin-left: 10px;"><?= $label ?></span>
         <?php else : ?>
             <span class="profile-picture initials"><?= $usernameInitial ?></span>
+            <span class="photo-label"style="vertical-align: middle;margin-left: 12.4px;"><?= $label ?></span>
         <?php endif; ?>
     </a>
     <ul class="dropdown-menu">
@@ -32,10 +35,10 @@ $iconSize =( isset($style['iconSize'])&& $style['iconSize']!='') ? $style['iconS
         <li>
             <hr class="dropdown-divider">
         </li>
-        <li ><a class="dropdown-item" href="/site/profile/edit" style="text-align: center; border:none !important">Edit Account</a></li>
+        <li ><a class="dropdown-item" href="/site/profile/edit" style="text-align: center; border:none !important"><?php echo Module::t('Edit Account')?></a></li>
         <li>
             <hr class="dropdown-divider">
         </li>
-        <li  ><a class="dropdown-item " href="/site/auth/logout" style="text-align: center;border:none !important">Logout</a></li>
+        <li  ><a class="dropdown-item " href="/site/auth/logout" style="text-align: center;border:none !important"><?php echo Module::t('Logout')?></a></li>
     </ul>
 </li>

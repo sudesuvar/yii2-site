@@ -12,6 +12,8 @@
     color: #fff;
     font-weight: bold;
     font-size: 18px;
+    margin-left: -5px;
+    margin-top:0.2px;
 }
 .dropdown-menu .profile-picture {
     display: inline-block;
@@ -19,7 +21,10 @@
     height: 80px;
     border-radius: 50%;
     text-align: center;
-    line-height: 80px; 
+    line-height: 65px; 
     vertical-align: middle;
     font-size: 50px; 
+}
+#main .profile .photo-label {
+    display: none;
 }

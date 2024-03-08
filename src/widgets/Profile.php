@@ -7,16 +7,19 @@ use yii\base\Widget;
 use yii\helpers\Html;
 use portalium\storage\models\Storage;
 use portalium\user\models\User;
+use portalium\menu\models\MenuItem;
+use portalium\site\Module;
 
 class Profile extends Widget
 {
  public $display;
  public $style;
+ public $label;
   //işlemleri başlatan fonksiyon
     public function init()
     { 
       parent::init();
-      $this->style = '{"icon":"","color":"","iconSize":"","display":"","childDisplay":"1","placement":""}';
+      $this->style = '{"icon":"","color":"","iconSize":"","display":"2","childDisplay":"1","placement":""}';
       $this->style = json_decode($this->style, true);
       
    // yapıcı method
@@ -28,7 +31,7 @@ class Profile extends Widget
            //yetki kontrolü
           // widgets altındaki viewse render et
 
-          
+         $label=$this->generateLabel("Profile");          
           if(Yii::$app->user->isGuest == true)
           {
             return false;
@@ -68,9 +71,19 @@ class Profile extends Widget
                 'usernameInitial' => $usernameInitial,
                 'filePath' => $filePath,
                 'style' => $this->style,
-                
+                'label' =>$label,       
             ]);
           }
     }
+
+
+    private function generateLabel($text)
+{
+    $label = isset($this->style['display']) && $this->style['display'] === MenuItem::TYPE_DISPLAY['icon']
+        ? ""
+        : Module::t($text);
+
+    return $label;
+}
 
 }
