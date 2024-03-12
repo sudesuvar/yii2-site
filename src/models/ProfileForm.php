@@ -19,7 +19,6 @@ class ProfileForm extends Model
     {
         $rules = [
             ['username', 'trim'],
-            //kullanıcının kendi usernami dışındakiler için unique kontrolü yapıyorum
             ['username', 'unique', 'targetClass' => '\portalium\user\models\User', 'filter' => function ($query) {
                 $query->andWhere(['not', ['id_user' => Yii::$app->user->identity->id_user]]);
             }, 'message' => Module::t('This username has already been taken.')],            ['username', 'string', 'min' => 2, 'max' => 255],
