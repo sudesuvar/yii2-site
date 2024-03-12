@@ -2,6 +2,7 @@
 
 use yii\db\Migration;
 use portalium\site\rbac\OwnRule;
+use yii\rbac\Rule;
 
 class m211115_010204_profile_rbac extends Migration
 {
@@ -10,17 +11,11 @@ class m211115_010204_profile_rbac extends Migration
         $auth = \Yii::$app->authManager;
 
         $rule = new OwnRule();
-        $auth->add($rule);
+        $auth->getRule('siteOwnRule');
         $role = \Yii::$app->setting->getValue('site::admin_role');
         $admin = (isset($role) && $role != '') ? $auth->getRole($role) : $auth->getRole('admin');
 
-        $user = $auth->createRole('user');
-        $user->description = 'User';
-        $auth->add($user);
-        $auth->addChild($admin, $user);
-
-
-
+       
         $siteApiProfileEdit = $auth->createPermission('siteApiProfileEdit');
         $siteApiProfileEdit->description = 'Site Api Profile Edit';
         $auth->add($siteApiProfileEdit);
