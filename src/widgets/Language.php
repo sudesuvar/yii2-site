@@ -14,6 +14,7 @@ class Language extends Widget
     public $options;
 
     public $icon;
+    public $style;
     public $display;
 
     public function init()
