@@ -35,8 +35,8 @@ class ProfileController extends WebController
             }
         }
         return $this->render('edit', [
-            'modelprofile' => $modelProfile,
-            'modelpassword' => $modelPassword,
+            'modelProfile' => $modelProfile,
+            'modelPassword' => $modelPassword,
 
         ]);
     }
