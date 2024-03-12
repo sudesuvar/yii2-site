@@ -13,42 +13,64 @@ class ProfileController extends WebController
 {
     public function actionEdit()
     {
-        $modelprofile = new ProfileForm();
-        $modelpassword = new ProfilePasswordForm();
+
+        if (!Yii::$app->user->can('siteWebProfileEdit')) {
+            throw new \yii\web\ForbiddenHttpException(Module::t('You are not allowed to access this page.'));
+        }
+
+        $modelProfile = new ProfileForm();
+        $modelPassword = new ProfilePasswordForm();
 
         $user = User::findOne(Yii::$app->user->identity->id_user);
-        $modelprofile->username = $user->username;
-        $modelprofile->first_name = $user->first_name;
-        $modelprofile->last_name = $user->last_name;
-        $modelprofile->email = $user->email;
+        $modelProfile->username = $user->username;
+        $modelProfile->first_name = $user->first_name;
+        $modelProfile->last_name = $user->last_name;
+        $modelProfile->email = $user->email;
 
-      
-        if ($modelprofile->load(Yii::$app->request->post())) {
-            if ($modelprofile->updateUser() ) {
-                Yii::$app->session->addFlash('success',Module::t('Your profile has been successfully updated!') );
+
+
+        if ($modelProfile->load(Yii::$app->request->post())) {
+            if ($modelProfile->updateUser()) {
+                Yii::$app->session->addFlash('success', Module::t('Your profile has been successfully updated!'));
             }
         }
         return $this->render('edit', [
-            'modelprofile' =>$modelprofile, 
-            'modelpassword'=>$modelpassword,   
+            'modelProfile' => $modelProfile,
+            'modelPassword' => $modelPassword,
+
         ]);
     }
-    
+
     public function actionEditPassword()
     {
-        $modelpassword = new  ProfilePasswordForm();
-        $modelprofile = new ProfileForm();
-        if ($modelpassword->load(Yii::$app->request->post())) {
-            if ($modelpassword->updatePassword()) {
-                Yii::$app->session->addFlash('success',Module::t('Your password has been successfully updated') );
+
+        if (!Yii::$app->user->can('siteWebProfileEditPassword')) {
+            throw new \yii\web\ForbiddenHttpException(Module::t('You are not allowed to access this page.'));
+        }
+
+        $modelPassword = new  ProfilePasswordForm();
+        $modelProfile = new ProfileForm();
+
+        $user = User::findOne(Yii::$app->user->identity->id_user);
+        $modelProfile->username = $user->username;
+        $modelProfile->first_name = $user->first_name;
+        $modelProfile->last_name = $user->last_name;
+        $modelProfile->email = $user->email;
+
+
+        if ($modelPassword->load(Yii::$app->request->post())) {
+            if ($modelPassword->updatePassword()) {
+                Yii::$app->session->addFlash('success', Module::t('Your password has been successfully updated'));
+                $modelPassword = new ProfilePasswordForm();
             } else {
                 Yii::$app->session->addFlash('error', Module::t('Your old Password information is incorrect!'));
+                $modelPassword = new ProfilePasswordForm();
             }
         }
 
         return $this->render('edit', [
-            'modelpassword'=>$modelpassword, 
-            'modelprofile'=>$modelprofile,  
+            'modelPassword' => $modelPassword,
+            'modelProfile' => $modelProfile,
         ]);
     }
 }

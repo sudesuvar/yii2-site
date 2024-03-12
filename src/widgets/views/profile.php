@@ -9,9 +9,9 @@ $iconSize =( isset($style['iconSize'])&& $style['iconSize']!='') ? $style['iconS
 ?>
 
 <li class="nav-item dropdown me-lg-0 ">
-    <a href="#"class="nav-link dropdown-toggle profile flex-column" data-bs-toggle="dropdown"  aria-expanded="false">
+    <a href="#"class="nav-link dropdown-toggle profile flex-column" data-bs-toggle="dropdown"  aria-expanded="false"style="paadding-bottom:0px!important;margin-bottom:0px;padding-top:3px!important">
         <?php if ($model !== null) : ?>
-            <img src="<?= $filePath ?>" alt="<?= $title ?>" width="<?= $iconSize ?>" height="<?= $iconSize ?>" class="rounded-circle me-2 flex-column"style="margin-top:0.2px; margin-left: -5px;" >
+            <img src="<?= $filePath ?>" alt="<?= $title ?>" width="<?= $iconSize ?>" height="<?= $iconSize ?>" class="rounded-circle me-2 flex-column"style="margin-top:5px; margin-left: -5px;" >
             <span class="photo-label flex-column"style="vertical-align: middle;margin-left: 10px;"><?= $label ?></span>
         <?php else : ?>
             <span class="profile-picture initials"><?= $usernameInitial ?></span>
