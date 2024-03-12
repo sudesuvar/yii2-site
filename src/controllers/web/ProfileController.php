@@ -13,6 +13,11 @@ class ProfileController extends WebController
 {
     public function actionEdit()
     {
+
+        if(!Yii::$app->user->can('siteWebProfileEdit')){
+            throw new \yii\web\ForbiddenHttpException(Module::t('You are not allowed to access this page.'));
+        }
+
         $modelprofile = new ProfileForm();
         $modelpassword = new ProfilePasswordForm();
 
@@ -36,6 +41,9 @@ class ProfileController extends WebController
     
     public function actionEditPassword()
     {
+        if(!Yii::$app->user->can('siteWebProfileEditPassword')){
+            throw new \yii\web\ForbiddenHttpException(Module::t('You are not allowed to access this page.'));
+        }
         $modelpassword = new  ProfilePasswordForm();
         $modelprofile = new ProfileForm();
         if ($modelpassword->load(Yii::$app->request->post())) {

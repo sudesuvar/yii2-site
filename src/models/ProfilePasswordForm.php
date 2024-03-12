@@ -28,8 +28,8 @@ class ProfilePasswordForm extends Model
     public function attributeLabels()
     {
         return [
-            //  'old_password' => Module::t('Old Password'),
-            //  'password' => Module::t('Password'),
+            'old_password' => Module::t('Old Password'),
+            'password' => Module::t('Password'),
         ];
     }
 
