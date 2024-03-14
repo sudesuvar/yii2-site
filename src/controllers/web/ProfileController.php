@@ -26,6 +26,7 @@ class ProfileController extends WebController
         $modelProfile->first_name = $user->first_name;
         $modelProfile->last_name = $user->last_name;
         $modelProfile->email = $user->email;
+        $modelProfile->id_avatar=$user->id_avatar;
 
 
 
@@ -56,6 +57,7 @@ class ProfileController extends WebController
         $modelProfile->first_name = $user->first_name;
         $modelProfile->last_name = $user->last_name;
         $modelProfile->email = $user->email;
+        $modelProfile->id_avatar=$user->id_avatar;
 
 
         if ($modelPassword->load(Yii::$app->request->post())) {
