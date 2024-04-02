@@ -11,7 +11,7 @@ class m010101_010102_site_menu extends Migration
     {
         $id_menu = Menu::find()->where(['slug' => 'web-main-menu'])->one()->id_menu;
         $id_item = MenuItem::find()->where(['slug' => 'site'])->one();
-
+        $id_menu_side = Menu::find()->where(['slug' => 'web-side-menu'])->one()->id_menu;
         if(!$id_item){
             $this->insert('menu_item', [
                 'id_item' => NULL,
@@ -45,6 +45,17 @@ class m010101_010102_site_menu extends Migration
             $this->insert('menu_item_child', [
                 'id_item' => $id_item,
                 'id_child' => $id
+            ]);
+        }
+
+        if ($id_menu_side) {
+            /* 
+                (29, 'Preference', 'preference', 2, '{\"icon\":\"fa-cogs\",\"color\":\"\",\"iconSize\":\"\",\"display\":\"3\",\"childDisplay\":\"\",\"placement\":\"1\"}', '{\"data\":{\"module\":\"site\",\"routeType\":\"action\",\"route\":\"\\/site\\/preference\\/index\",\"model\":\"\",\"menuRoute\":null,\"menuType\":null}}', 4, 2, 'user', 1, '2023-07-18 05:43:24', '2024-02-23 16:46:17'),
+                (30, 'Profile', 'profile', 2, '{\"icon\":\"fa-user\",\"color\":\"\",\"iconSize\":\"\",\"display\":\"3\",\"childDisplay\":\"\",\"placement\":\"1\"}', '{\"data\":{\"module\":\"site\",\"routeType\":\"action\",\"route\":\"\\/site\\/profile\\/edit\",\"model\":\"\",\"menuRoute\":null,\"menuType\":null}}', 6, 2, 'user', 1, '2023-07-18 06:03:03', '2024-03-27 14:52:33'), 
+            */
+            $this->batchInsert('menu_item', ['id_item', 'label', 'slug', 'type', 'style', 'data', 'sort', 'id_menu', 'name_auth', 'id_user', 'date_create', 'date_update'], [
+                [NULL, 'Preference', 'preference', '2', '{"icon":"fa-cogs","color":"","iconSize":"","display":"3","childDisplay":"","placement":"1"}', '{"data":{"module":"site","routeType":"action","route":"\\/site\\/preference\\/index","model":"","menuRoute":null,"menuType":null}}', 4, $id_menu_side, 'user', 1,'2023-07-18 05:43:24', '2024-02-23 16:46:17'],
+                [NULL, 'Profile', 'profile', '2', '{"icon":"fa-user","color":"","iconSize":"","display":"3","childDisplay":"","placement":"1"}', '{"data":{"module":"site","routeType":"action","route":"\\/site\\/profile\\/edit","model":"","menuRoute":null,"menuType":null}}', 6, $id_menu_side, 'user', 1,'2023-07-18 06:03:03', '2024-03-27 14:52:33'],
             ]);
         }
 
