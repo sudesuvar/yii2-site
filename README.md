@@ -1,8 +1,6 @@
-# portalium-site
-
 <p>
 
-<h1 align="center">Yii Email Verify</h1>
+<h1 align="center">Yii2 Site Management</h1>
 
 This module allows you to create a new user and enables an existing user to log in.
 - Login and signup.
