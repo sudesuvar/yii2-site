@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $form->field($modelProfile, 'last_name')->label(Module::t('Last Name'))->textInput(['maxlength' => true]) ?>
     <?= $form->field($modelProfile, 'username')->textInput(['maxlength' => true]) ?>
     <?= $form->field($modelProfile, 'email')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($modelProfile, "id_avatar")->label(Module::t('Profile'))->widget("\portalium\storage\widgets\FilePicker", [
+    <?= $form->field($modelProfile, "id_avatar")->label(Module::t('Avatar'))->widget("\portalium\storage\widgets\FilePicker", [
         'multiple' => 0,
         'attributes' => ['id_storage'],
         'name' => 'app::logo_wide',
@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php
  $form2 = ActiveForm::begin(['method' => 'post', 'action' => ['profile/edit-password']]); ?>
 <?php Panel::begin([
-    'title' => Html::encode('Edit Password'),
+    'title' => Html::encode('Change Password'),
     'actions' => [
         'header' => [],
         'footer' => [
@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ]) ?>
        
     
-    <?= $form2->field($modelPassword, 'old_password')->label(Module::t('Old Password'))->passwordInput(['class' => 'form-control form-control-lg']) ?>
+    <?= $form2->field($modelPassword, 'old_password')->label(Module::t('Current Password'))->passwordInput(['class' => 'form-control form-control-lg']) ?>
     <?= $form2->field($modelPassword, 'password')->passwordInput(['class' => 'form-control form-control-lg']) ?>
     
 <?php Panel::end() ?>

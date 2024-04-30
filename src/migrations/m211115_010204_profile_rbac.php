@@ -23,7 +23,7 @@ class m211115_010204_profile_rbac extends Migration
 
 
         $siteApiProfileEditPassword = $auth->createPermission('siteApiProfileEditPassword');
-        $siteApiProfileEditPassword->description = 'Site Api Profile Edit Password';
+        $siteApiProfileEditPassword->description = 'Site Api Profile Change Password';
         $auth->add($siteApiProfileEditPassword);
         $auth->addChild($admin, $siteApiProfileEditPassword);
 
@@ -35,7 +35,7 @@ class m211115_010204_profile_rbac extends Migration
 
 
         $siteWebProfileEditPassword = $auth->createPermission('siteWebProfileEditPassword');
-        $siteWebProfileEditPassword->description = 'Site Web Profile Edit Password';
+        $siteWebProfileEditPassword->description = 'Site Web Profile Change Password';
         $auth->add($siteWebProfileEditPassword);
         $auth->addChild($admin, $siteWebProfileEditPassword);
 

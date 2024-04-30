@@ -122,10 +122,10 @@ return [
     /*Profile*/
     'Profile' => 'Profil',
     'Edit Profile' => 'Profili Düzenle',
-    'Edit Password' => 'Şifreyi Düzenle',
+    'Change Password' => 'Şifreyi Düzenle',
     'First Name' => 'İsim',
     'Last Name' => 'Soy isim',
-    'Old Password' => 'Eski Şifre',
+    'Current Password' => 'Eski Şifre',
     'Password' => 'Şifre',
     'Edit Account' => 'Profil Düzenle',
     'Logout' => 'Çıkış',
