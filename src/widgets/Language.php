@@ -14,6 +14,7 @@ class Language extends Widget
     public $options;
 
     public $icon;
+    public $style;
     public $display;
 
     public function init()
@@ -43,7 +44,6 @@ class Language extends Widget
             'items' => $langItems,
             'display' => $this->display,
         ];
-
         return Nav::widget([
             'options' => $this->options,
             'items' => $menuItems,
