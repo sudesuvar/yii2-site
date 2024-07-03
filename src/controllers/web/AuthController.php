@@ -11,6 +11,7 @@ use yii\base\InvalidParamException;
 use portalium\site\models\LoginForm;
 use yii\web\BadRequestHttpException;
 use portalium\site\models\SignupForm;
+use portalium\user\models\User;
 use portalium\site\models\ResetPasswordForm;
 use portalium\web\Controller as WebController;
 use portalium\site\models\PasswordResetRequestForm;
@@ -88,6 +89,12 @@ class AuthController extends WebController
         }
 
         if (($user = $model->verifyEmail()) &&Yii::$app->user->login($user)) {
+
+            $userId = Yii::$app->user->id;
+            $userModel = User::findOne($userId);
+            $userModel->email_verify =User:: EMAIL_VERIFY;
+            $userModel->save();
+            
             return $this->goHome();
         }
         Yii::$app->session->setFlash('error', 'Sorry, we are unable to verify your account with provided token.');
