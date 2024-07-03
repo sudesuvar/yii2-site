@@ -54,17 +54,6 @@ class Module extends \portalium\base\Module
                     'type' => 'action',
                     'route' => '/site/preference/index',
                 ],
-                [
-                    'menu' => 'web',
-                    'type' => 'widget',
-                    'label'=>'portalium\site\widgets\profile', 
-                    'name'=>'Profile',
-                ],
-                [
-                    'menu' => 'web',
-                    'type' => 'action',
-                    'route' => '/site/profile/edit',
-                ]
             ],
         ];
         return $menuItems;

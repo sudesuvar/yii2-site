@@ -1,6 +1,8 @@
+# portalium-site
+
 <p>
 
-<h1 align="center">Yii2 Site Management</h1>
+<h1 align="center">Yii Email Verify</h1>
 
 This module allows you to create a new user and enables an existing user to log in.
 - Login and signup.
@@ -15,24 +17,15 @@ This module allows you to create a new user and enables an existing user to log 
 -PHP 7.4 or higher
 
 ## Installation
+The package could be installed with composer :<br/>
+1.Open the composer.json file of your root project.<br/>
+2.Add the link of the module to the repositories section 
+```shell
+https://github.com/portalium/yii2-site.git 
 ```
-composer require portalium/yii2-site "*"
-```
+3.Include the module in your current project in the require section.<br/>
 
-or for the dev-master
-
-```
-composer require portalium/yii2-site "*"
-```
-
-Or, you may add
-
-```
-"portalium/yii2-site": "*"
-```
-
-to the require section of your `composer.json` file and execute `composer update`.
-
+After performing these steps, you can add the module to your project via Composer by going to the directory where your project is located in the terminal and running the composer update command.
 
 
 
@@ -41,15 +34,58 @@ to the require section of your `composer.json` file and execute `composer update
 #### Login
 The login method checks whether the mail control settings are enabled after verifying the user information.
 
+```php
+if ($this->validate())
+{
+ if($user->status===User::STATUS_ACTIVE)
+ {
+ 
+ }else
+ {
+ 
+ }
+} else {
+
+ }
+```
 ### E-mail verification
 The actionVerifyEmail method is a function that performs the email verification process for the user and does so using a token.
-
+```php
+public function actionVerifyEmail($token)
+```
 ### Resend Verification Email
 This method provides users with a way to resend verification emails when needed.
+```php
+if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+if ($model->sendEmail()) {
+Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
+return $this->goHome();
+}
+Yii::$app->session->setFlash('error', 'Sorry, we are unable to resend verification email for the provided email address.');
+}
+```
+![img_6.png](img_6.png)
 
 ### Email Confirmation settings
-It inserts a setting named 'Email Confirmation' into a database table associated with the 'site' module. This setting is displayed in the user interface using a radio button. The 'Email Confirmation' option can be set as 'Active' or 'Passive', and based on this selection. <br/>
+It inserts a setting named 'Email Confirmation' into a database table associated with the 'site' module. This setting is displayed in the user interface using a radio button. The 'Email Confirmation' option can be set as 'Active' or 'Passive', and based on this selection, the value '1' or '0' is saved to the database.<br/>
+![img.png](img.png)
 
+### Verify Email Form
+
+#### __construct :
+A constructor method includes a class's constructor. The constructor method is automatically called when an object of the class is created and is used to perform specific initializations.
+This constructor method ensures the proper initialization of the class by verifying the validity of the email verification code and checking if the corresponding user exists in the database. In this way, the class is securely and correctly utilized for the email verification process.
+
+#### verifyEmail :
+The purpose of this method is to complete the user's email verification process and activate their account. If the verification process is successful, it returns the activated user model. If it fails, it returns a null value.
+```php
+public function verifyEmail()
+{
+$user = $this->_user;
+$user->status = User::STATUS_ACTIVE;
+return $user->save(false) ? $user : null;
+}
+```
 ### Code Contributors
 
 This project exists thanks to all the people who contribute.

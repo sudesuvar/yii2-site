@@ -118,19 +118,4 @@ return [
     'There are an error. Settings not saved.' => 'Bir hata var. Ayarlar kaydedilmedi.',
     'Preferences' => 'Tercihler',
     'Contents' => 'İçerikler',
-
-    /*Profile*/
-    'Profile' => 'Profil',
-    'Edit Profile' => 'Profili Düzenle',
-    'Change Password' => 'Şifreyi Düzenle',
-    'First Name' => 'İsim',
-    'Last Name' => 'Soy isim',
-    'Current Password' => 'Eski Şifre',
-    'Password' => 'Şifre',
-    'Edit Account' => 'Profil Düzenle',
-    'Logout' => 'Çıkış',
-    'Your profile has been successfully updated!' => 'Profiliniz başarıyla güncellendi!',
-    'Your old Password information is incorrect!' => 'Eski Password bilginiz hatalı!',
-    'Your password has been successfully updated' => 'Şifreniz başarıyla güncellendi!',
-    'You are not allowed to access this page.' => 'Bu sayfaya erişmenize izin verilmiyor.'
 ];

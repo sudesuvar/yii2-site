@@ -35,9 +35,7 @@ class Setting extends Component
         {
             $settingModel=self::findSetting($name);
             $preferenceModel=self::findPreference($settingModel->id);
-//            if (\Yii::$app->session->get($name) !== null) {
-//                return self::decode(Yii::$app->session->get($name));
-//            }
+
             if($preferenceModel)
             {
                 return self::decode(self::findPreference($settingModel->id)->value);

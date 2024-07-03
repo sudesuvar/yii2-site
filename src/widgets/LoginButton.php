@@ -12,7 +12,7 @@ class LoginButton extends Widget
 {
     public $icon;
     public $display;
-    public $style;
+
     public function init()
     {
         if(!$this->icon){
@@ -27,7 +27,8 @@ class LoginButton extends Widget
             $this->icon = Html::tag('i', '', ['class' => 'fa fa-sign-in', 'style' => 'min-width: 25px;']);
             return '<li class="nav-item">' . Html::a($this->generateLabel('Login'), ['/site/auth/login'], ['class' => 'nav-link']) . '</li>';
         } else {
-            return false;
+            $this->icon = Html::tag('i', '', ['class' => 'fa fa-sign-out', 'style' => 'min-width: 25px;']);
+            return '<li class="nav-item">' . Html::a($this->generateLabel('Logout', ' (' . Yii::$app->user->identity->username . ')'),['/site/auth/logout'],['class' => 'nav-link']) . '</li>';
         }
     }
 
