@@ -1,21 +1,52 @@
 <?php
 
+use portalium\menu\models\MenuItem;
 use portalium\site\bundles\ProfileAsset;
 use portalium\site\Module;
 
 ProfileAsset::register($this);
 
-$iconSize =( isset($style['iconSize'])&& $style['iconSize']!='') ? $style['iconSize'] : 20;
+$iconSize = (isset($style['iconSize']) && $style['iconSize'] != '') ? $style['iconSize'] : 20;
+$placementStyle='';
+if ($placement == 'top-to-bottom') {
+    $placementStyle = 'topToBottom'; 
+    echo '<style>
+    .topToBottom {
+        display: block;
+        flex-direction: column; 
+        align-items: center;
+    }
+    </style>';
+}elseif($placement == 'side-by-side'){
+    $placementStyle = 'sideBySide'; 
+    echo '<style>
+    .sideBySide .profile {
+        flex-direction: row !important;
+    }
+    .sideBySide .profile img,
+    .sideBySide .profile span.photo-label {
+        margin-left: 10px;
+        margin-top: 0;
+    }
+    </style>';
+}
+
+
+//var_dump($placement);
+//exit;
+
 ?>
 
-<li class="nav-item dropdown">
-    <a href="#"class="nav-link dropdown-toggle profile flex-column" data-bs-toggle="dropdown"  aria-expanded="false"style="padding-bottom:7px !important; margin-bottom:0px; padding-top:3px !important;">
+<li class="nav-item dropdown <?= $placementStyle ?>">
+    <a href="#" class="nav-link dropdown-toggle profile flex-column" data-bs-toggle="dropdown" data-bs-placement="<?php echo $placement?> " aria-expanded="false" style="padding-bottom:7px !important; margin-bottom:0px; padding-top:3px !important; display:flex; align-items: center;">
         <?php if ($model !== null) : ?>
-            <img src="<?= $filePath ?>" alt="<?= $title ?>" width="<?= $iconSize ?>" height="<?= $iconSize ?>" class="rounded-circle me-2 flex-column"style="margin-top:5px; margin-left: -5px;" >
-            <span class="photo-label flex-column"style="vertical-align: middle;margin-left: 10px;"><?= $label ?></span>
+            <img src="<?= $filePath ?>" alt="<?= $title ?>" width="<?= $iconSize ?>" height="<?= $iconSize ?>" class="rounded-circle me-2 flex-column" style="margin-top:5px; margin-left: -5px;">
+            <span class="photo-label flex-column" style="vertical-align: middle;margin-left: 10px;"><?= $label ?></span>
+
         <?php else : ?>
             <span class="profile-picture initials"><?= $usernameInitial ?></span>
-            <span class="photo-label"style="vertical-align: middle;margin-left: 12.4px;"><?= $label ?></span>
+            <span class="photo-label" style="vertical-align: middle;margin-left: 12.4px;"><?= $label ?></span>
+            <div style=" padding-top: 5px;"><?php echo $first_name  ?></div>
         <?php endif; ?>
     </a>
     <ul class="dropdown-menu">
@@ -35,10 +66,10 @@ $iconSize =( isset($style['iconSize'])&& $style['iconSize']!='') ? $style['iconS
         <li>
             <hr class="dropdown-divider">
         </li>
-        <li ><a class="dropdown-item" href="/site/profile/edit" style="text-align: center; border:none !important"><?php echo Module::t('Edit Account')?></a></li>
+        <li><a class="dropdown-item" href="/site/profile/edit" style="text-align: center; border:none !important"><?php echo Module::t('Edit Account') ?></a></li>
         <li>
             <hr class="dropdown-divider">
         </li>
-        <li  ><a class="dropdown-item " href="/site/auth/logout" style="text-align: center;border:none !important"><?php echo Module::t('Logout')?></a></li>
+        <li><a class="dropdown-item " href="/site/auth/logout" style="text-align: center;border:none !important"><?php echo Module::t('Logout') ?></a></li>
     </ul>
 </li>
