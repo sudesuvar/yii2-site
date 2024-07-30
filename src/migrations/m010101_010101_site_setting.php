@@ -137,7 +137,7 @@ class m010101_010101_site_setting extends Migration
             'type' => Form::TYPE_RADIOLIST,
             'config' => json_encode([ 1 => 'Show', 0 => 'Hide'])
         ]);
-
+        
         $this->insert(Module::$tablePrefix . 'setting', [
             'module' => 'site',
             'name' => 'api::signup',

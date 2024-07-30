@@ -79,6 +79,7 @@ class SignupForm extends Model
                 if ($this->sendEmail($user)) {
                     \Yii::$app->trigger(Module::EVENT_ON_SIGNUP, new Event(['payload' => $user]));
                     return $user;
+                    // return Yii::$app->session->setFlash('error', 'mistake');
                 }
             } else if (!(Yii::$app->setting->getValue('site::verifyEmail'))) {
                 Yii::$app->session->setFlash('success', 'Your registration has been successfully completed.');
