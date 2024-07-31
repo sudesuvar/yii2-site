@@ -35,6 +35,7 @@ return [
     'Please fill out the following fields to signup:' => 'Kayıt olmak için lütfen aşağıdaki alanları doldurun:',
     'Save' => 'Kaydet',
     'Your registration has been successfully completed. Confirm the confirmation e-mail sent to your e-mail.' => 'Kaydınız başarıyla tamamlandı. E-postanıza gönderilen onay e-postasını onaylayın.',
+    'SMTP error: Unable to send verification email. Please try again later.'=>'SMTP hatası: Doğrulama e-postası gönderilemiyor. Lütfen daha sonra tekrar deneyiniz.',
     /* Reset */
     'Password reset token cannot be blank.' => 'Şifre sıfırlama alanı boş olamaz.',
     'Please fill out your email. A link to reset password will be sent there.' => 'Lütfen e-posta adresinizi girin. Şifreyi sıfırlamak için bir link gönderilecektir.',

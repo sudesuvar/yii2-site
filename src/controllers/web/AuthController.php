@@ -130,11 +130,6 @@ class AuthController extends WebController
         if (Yii::$app->setting->getValue('form::signup')) {
             $model = new SignupForm();
             if ($model->load(Yii::$app->request->post())) {
-                Yii::$app->session->addFlash('error', Module::t('SMTP error: Unable to send verification email. Please try again later.'));
-                return $this->render('signup', [
-                    'model' => $model,
-                ]);
-                $model->user->delete();
                 if ($user = $model->signup()) {
                     if (Yii::$app->getUser()->login($user)) {
                         return $this->goHome();

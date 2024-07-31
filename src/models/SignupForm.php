@@ -2,6 +2,7 @@
 
 namespace portalium\site\models;
 
+use Exception;
 use portalium\base\Event;
 use yii\base\Model;
 use portalium\site\Module;
@@ -73,22 +74,28 @@ class SignupForm extends Model
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
         $user->status = Yii::$app->setting->getValue('site::userStatus');
+
+
         if ($user->save()) {
             if (Yii::$app->setting->getValue('site::verifyEmail')) {
-                Yii::$app->session->setFlash('success', 'Your registration has been successfully completed. Confirm the confirmation e-mail sent to your e-mail.');
-                if ($this->sendEmail($user)) {
-                    \Yii::$app->trigger(Module::EVENT_ON_SIGNUP, new Event(['payload' => $user]));
-                    return $user;
-                    // return Yii::$app->session->setFlash('error', 'mistake');
+                try {
+                    if ($this->sendEmail($user)) {
+                        Yii::$app->trigger(Module::EVENT_ON_SIGNUP, new Event(['payload' => $user]));
+                        Yii::$app->session->setFlash('success', 'Your registration has been successfully completed. Confirm the confirmation e-mail sent to your e-mail.');
+                        return $user;
+                    }
+                } catch (Exception $e) {
+                    Yii::$app->session->addFlash('error', Module::t('SMTP error: Unable to send verification email. Please try again later.'));
+                    $user->delete();
                 }
             } else if (!(Yii::$app->setting->getValue('site::verifyEmail'))) {
                 Yii::$app->session->setFlash('success', 'Your registration has been successfully completed.');
-                \Yii::$app->trigger(Module::EVENT_ON_SIGNUP, new Event(['payload' => $user]));
+                Yii::$app->trigger(Module::EVENT_ON_SIGNUP, new Event(['payload' => $user]));
                 return $user;
             }
         } else {
-
         }
+
 
         return null;
     }
