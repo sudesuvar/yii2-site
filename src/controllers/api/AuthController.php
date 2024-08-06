@@ -16,47 +16,47 @@ class AuthController extends RestController
     public function behaviors()
     {
         $behaviors = parent::behaviors();
-        $behaviors['authenticator']['except'] = ['login','signup'];
+        $behaviors['authenticator']['except'] = ['login', 'signup'];
 
         return $behaviors;
     }
 
     public function actionLogin()
     {
-        if(!Yii::$app->setting->getValue(['api::login']))
+        if (!Yii::$app->setting->getValue(['api::login']))
             return $this->error(['APILogin' => Module::t("Login denied with API")]);
 
         $model = new LoginForm();
-        if($model->load(Yii::$app->getRequest()->getBodyParams(),'')) {
+        if ($model->load(Yii::$app->getRequest()->getBodyParams(), '')) {
             if ($model->login()) {
                 $user = User::findIdentity(Yii::$app->user->identity->id);
                 return $this->getUserData($user);
             } else
                 return $this->modelError($model);
-        }else{
+        } else {
             return $this->error(['LoginForm' => Module::t("Username (username) and Password (password) required.")]);
         }
-	}
+    }
 
-	public function actionSignup()
-	{
-	    if(!Yii::$app->setting->getValue('api::signup'))
+    public function actionSignup()
+    {
+        if (!Yii::$app->setting->getValue('api::signup'))
+        
             return $this->error(['APISigup' => Module::t("Signup denied with API")]);
 
         $model = new SignupForm();
-
-        if($model->load(Yii::$app->getRequest()->getBodyParams(),'')) {
-            if($user = $model->signup()){
+        if ($model->load(Yii::$app->getRequest()->getBodyParams(), '')) {
+            if ($user = $model->signupApi()) {
                 return $this->getUserData($user);
-            }
-            else
+            } else
                 return $this->modelError($model);
-        }else{
+        } else {
             return $this->error(['SignupForm' => Module::t("Username (username), Password (password) and Email (email) required.")]);
         }
-	}
+    }
 
-    protected function getUserData($user) {
+    protected function getUserData($user)
+    {
         return [
             'id' => $user->id,
             'username' => $user->username,
