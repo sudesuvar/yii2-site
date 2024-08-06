@@ -17,6 +17,7 @@ class SignupForm extends Model
     public $verifyCode;
     public $first_name;
     public $last_name;
+    public $isApiRequest;
 
     public function rules()
     {
@@ -58,11 +59,9 @@ class SignupForm extends Model
 
     public function signup()
     {
-
         if (!$this->validate()) {
             return null;
         }
-
 
         $user = new User();
         $user->username = $this->username;
@@ -93,10 +92,28 @@ class SignupForm extends Model
                 Yii::$app->trigger(Module::EVENT_ON_SIGNUP, new Event(['payload' => $user]));
                 return $user;
             }
-        } else {
         }
+        return null;
+    }
+
+    public function signupApi()
+    {
+
+        $user = new User();
+        $user->username = $this->username;
+        $user->email = $this->email;
+        $user->first_name = $this->first_name;
+        $user->last_name = $this->last_name;
+        $user->setPassword($this->password);
+        $user->access_token = \Yii::$app->security->generateRandomString();
+        $user->generateAuthKey();
+        $user->generateEmailVerificationToken();
+        $user->status = Yii::$app->setting->getValue('site::userStatus');
 
 
+        if ($user->save()) {
+            return $user;
+        }
         return null;
     }
 

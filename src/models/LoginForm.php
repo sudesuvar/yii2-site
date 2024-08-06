@@ -96,7 +96,7 @@ class LoginForm extends Model
                 if ($user->status === User::STATUS_ACTIVE) {
                     Yii::$app->session->set("login_status", true);
                     Event::trigger(Yii::$app->getModules(), Module::EVENT_ON_LOGIN, new Event(['payload' => $user]));
-                    \Yii::$app->trigger(Module::EVENT_ON_LOGIN, new Event(['payload' => $user]));
+                    Yii::$app->trigger(Module::EVENT_ON_LOGIN, new Event(['payload' => $user]));
                     return Yii::$app->user->login($user, $this->rememberMe ? 3600 * 24 * 30 : 0);
                 } else {
                     Yii::$app->session->set("login_status", false);
