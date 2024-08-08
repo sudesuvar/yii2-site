@@ -46,7 +46,7 @@ class AuthController extends RestController
 
         $model = new SignupForm();
         if ($model->load(Yii::$app->getRequest()->getBodyParams(), '')) {
-            if ($user = $model->signupApi()) {
+            if ($user = $model->signup()) {
                 return $this->getUserData($user);
             } else
                 return $this->modelError($model);
