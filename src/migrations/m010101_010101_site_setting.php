@@ -244,6 +244,15 @@ class m010101_010101_site_setting extends Migration
             'config' => json_encode(['ssl' => 'SSL','tls' => 'TLS'])
         ]);
 
+        $this->insert(Module::$tablePrefix . 'setting', [
+            'module' => 'site',
+            'name' => 'site::recaptcha',
+            'label' => 'ReCaptcha',
+            'value' => '1',
+            'type' => Form::TYPE_RADIOLIST,
+            'config' =>  json_encode([ 1 => 'Allow', 0 => 'Deny'])
+        ]);
+
     }
 
     public function down()

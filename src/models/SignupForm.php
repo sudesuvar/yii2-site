@@ -40,6 +40,15 @@ class SignupForm extends Model
                 'secret' => '6LdtOVspAAAAABzrPaWYTrqkSq4ppo6ZX1Z_vuzn',
                 'threshold' => '0.5',
                 'action' => 'signup',
+                'when' => function () {
+                    //var_dump(Yii::$app->site->mailer->setViewPath(Yii::getAlias('@portalium/site/mail')));
+                    //exit; 
+                    if (Yii::$app instanceof \portalium\web\Controller) {
+                        return Yii::$app->setting->getValue('site::recaptcha');
+                    } else {
+                        return false;
+                    }
+                }
             ],
 
 
@@ -96,27 +105,6 @@ class SignupForm extends Model
         return null;
     }
 
-    public function signupApi()
-    {
-
-        $user = new User();
-        $user->username = $this->username;
-        $user->email = $this->email;
-        $user->first_name = $this->first_name;
-        $user->last_name = $this->last_name;
-        $user->setPassword($this->password);
-        $user->access_token = \Yii::$app->security->generateRandomString();
-        $user->generateAuthKey();
-        $user->generateEmailVerificationToken();
-        $user->status = Yii::$app->setting->getValue('site::userStatus');
-
-
-        if ($user->save()) {
-            return $user;
-        }
-        return null;
-    }
-
     protected function sendEmail($user)
     {
         Yii::$app->site->mailer->setViewPath(Yii::getAlias('@portalium/site/mail'));
@@ -129,7 +117,8 @@ class SignupForm extends Model
             )
             ->setFrom([Yii::$app->setting->getValue('email::address') => Yii::$app->setting->getValue('email::displayname')])
             ->setTo($this->email)
-            ->setSubject('Account registration at ' . Yii::$app->name)
+            ->setSubject('Account registration at ' .  Yii::$app->setting->getValue('app::title'))
             ->send();
+             
     }
 }
