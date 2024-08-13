@@ -6,9 +6,11 @@ return [
     'Logout' => 'Çıkış',
     'Home' => 'Anasayfa',
     'Settings' => 'Ayarlar',
+    'Setting' => 'Ayarlar',
     'Portalium Home - Backend' => 'Portalium Anasayfa - Yönetim',
     'Portalium Home - Frontend' => 'Portalium Anasayfa - Önyüz',
     'Email' => 'E-Posta',
+    'Edit Account' => 'Hesabı Düzenle',
     /* About */
     'About' => 'Hakkımızda',
     'This is the About page. You may modify the following file to customize its content:' => 'Bu, Hakkında sayfasıdır. İçeriğini özelleştirmek için aşağıdaki dosyayı değiştirebilirsiniz:',
@@ -75,6 +77,12 @@ return [
     'Allow' => 'İzin Ver',
     'Deny' => 'Reddet',
     'Notification Group' => 'Bildirim Grubu',
+    'Auth Layout' => 'Kimlik Doğrulama Düzeni',
+    'Application Logo Wide' => 'Geniş Uygulama Logosu',
+    'Application Logo Square' => 'Uygulama Logosu Kare',
+    'Register Confirmation' => 'Kayıt Onayı',
+    'User Registration Status' => 'Kullanıcı Kayıt Durumu',
+    'Default Admin Role' => 'Varsayılan Yönetici Rolü',
     /* Error */
     'The above error occurred while the Web server was processing your request.' => 'Web sunucusu isteğinizi işlerken yukarıdaki hata oluştu.',
     'Please contact us if you think this is a server error.' => 'Bunun bir sunucu hatası olduğunu düşünüyorsanız lütfen bizimle iletişime geçin.',
@@ -122,7 +130,6 @@ return [
     /*Profile*/
     'Profile' => 'Profil',
     'Edit Profile' => 'Profili Düzenle',
-    'Change Password' => 'Şifreyi Düzenle',
     'First Name' => 'İsim',
     'Last Name' => 'Soy isim',
     'Current Password' => 'Eski Şifre',
@@ -132,5 +139,7 @@ return [
     'Your profile has been successfully updated!' => 'Profiliniz başarıyla güncellendi!',
     'Your old Password information is incorrect!' => 'Eski Password bilginiz hatalı!',
     'Your password has been successfully updated' => 'Şifreniz başarıyla güncellendi!',
-    'You are not allowed to access this page.' => 'Bu sayfaya erişmenize izin verilmiyor.'
+    'You are not allowed to access this page.' => 'Bu sayfaya erişmenize izin verilmiyor.',
+    'New Password' => 'Yeni Şifre',
+    'Change Password' => 'Şifreyi Değiştir',
 ];

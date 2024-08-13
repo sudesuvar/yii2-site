@@ -86,7 +86,8 @@ class SignupForm extends Model
                 return $user;
             }
         } else {
-
+            var_dump($user->getErrors());
+            exit;
         }
 
         return null;
