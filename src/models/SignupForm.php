@@ -41,8 +41,6 @@ class SignupForm extends Model
                 'threshold' => '0.5',
                 'action' => 'signup',
                 'when' => function () {
-                    //var_dump(Yii::$app->site->mailer->setViewPath(Yii::getAlias('@portalium/site/mail')));
-                    //exit; 
                     if (Yii::$app instanceof \portalium\web\Controller) {
                         return Yii::$app->setting->getValue('site::recaptcha');
                     } else {
