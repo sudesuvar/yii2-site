@@ -2,14 +2,17 @@
 
 namespace portalium\site\controllers\api;
 
-use portalium\site\models\Setting;
+
 use portalium\site\Module;
 use Yii;
-use yii\web\HttpException;
 use portalium\user\models\User;
 use portalium\site\models\SignupForm;
 use portalium\site\models\LoginForm;
 use portalium\rest\Controller as RestController;
+use yii\base\InvalidParamException;
+use yii\web\BadRequestHttpException;
+use InvalidArgumentException;
+use portalium\site\models\VerifyEmailForm;
 
 class AuthController extends RestController
 {
@@ -19,6 +22,26 @@ class AuthController extends RestController
         $behaviors['authenticator']['except'] = ['login', 'signup'];
 
         return $behaviors;
+    }
+    public function actionVerifyEmail($token)
+    {
+        try {
+            $model = new VerifyEmailForm($token);
+        } catch (InvalidArgumentException $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+
+        if (($user = $model->verifyEmail()) && Yii::$app->user->login($user)) {
+
+            $userId = Yii::$app->user->id;
+            $userModel = User::findOne($userId);
+            $userModel->email_verify = User::EMAIL_VERIFY;
+            $userModel->save();
+
+            return $this->goHome();
+        }
+        Yii::$app->session->setFlash('error', 'Sorry, we are unable to verify your account with provided token.');
+        return $this->goHome();
     }
 
     public function actionLogin()

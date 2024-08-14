@@ -2,11 +2,13 @@
 
 use yii\helpers\Url;
 
+use portalium\site\helpers\Route;
+
 /** @var yii\web\View $this */
 /** @var common\models\User $user */
 
 
-$verifyLink = Yii::$app->urlManager->createAbsoluteUrl(['site/auth/verify-email', 'token' => $user->verification_token]);
+$verifyLink = Route::createUrlWeb('site/auth/verify-email' , [ 'token' => $user->verification_token]);
 ?>
     Hello <?= $user->username ?>,
 
