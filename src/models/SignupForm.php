@@ -4,6 +4,7 @@ namespace portalium\site\models;
 
 use Exception;
 use portalium\base\Event;
+use portalium\site\components\Site;
 use yii\base\Model;
 use portalium\site\Module;
 use Yii;
@@ -18,6 +19,9 @@ class SignupForm extends Model
     public $first_name;
     public $last_name;
     public $isApiRequest;
+    const RECAPCHA_ACTIVE = 1;
+    const RECAPCHA_PASIVE = 0;
+
 
     public function rules()
     {
@@ -42,7 +46,11 @@ class SignupForm extends Model
                 'action' => 'signup',
                 'when' => function () {
                     if (Yii::$app instanceof \portalium\web\Controller) {
+                        if (Yii::$app->setting->getValue('site::recaptcha') == Yii::$app->site->RECAPCHA_ACTIVE) {  
                         return Yii::$app->setting->getValue('site::recaptcha');
+                        } else {
+                            return false;
+                        }
                     } else {
                         return false;
                     }
