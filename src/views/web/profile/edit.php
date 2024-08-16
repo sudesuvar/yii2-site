@@ -12,14 +12,14 @@ use portalium\site\Module;
 /* @var $form yii\widgets\ActiveForm */
 
 $context = $this->context;
-$this->title = "Edit Account";
+$this->title = Module::t('Edit Account');
 $this->params['breadcrumbs'][] = ['label' => Module::t('Setting'), 'url' => ['setting/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <?php $form = ActiveForm::begin(['method' => 'post', 'action' => ['profile/edit']]); ?>
 <?php Panel::begin([
-    'title' => Html::encode('Edit Profile'),
+    'title' => Html::encode(Module::t('Edit Profile')),
     'actions' => [
         'header' => [],
         'footer' => [
@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php
  $form2 = ActiveForm::begin(['method' => 'post', 'action' => ['profile/edit-password']]); ?>
 <?php Panel::begin([
-    'title' => Html::encode('Change Password'),
+    'title' => Html::encode(Module::t('Change Password')),
     'actions' => [
         'header' => [],
         'footer' => [
