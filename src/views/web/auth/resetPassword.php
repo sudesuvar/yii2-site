@@ -28,7 +28,7 @@ AppAsset::register($this);
                         ],
                     ]); ?>
                     
-                    <?= $form->field($model, 'password', ['options'=>['class' => 'form-attribute mb-3 row']])->passwordInput(['autofocus' => true, 'class' => 'form-control form-control-lg', 'placeholder' => Module::t('Email')]) ?>
+                    <?= $form->field($model, 'password', ['options'=>['class' => 'form-attribute mb-3 row']])->passwordInput(['autofocus' => true, 'class' => 'form-control form-control-lg', 'placeholder' => Module::t('Password')]) ?>
                     <div class="d-grid" style="margin-left:10px; margin-right:10px;">
                         <?= '<div class = "clearfix"></div>' .Html::submitButton('Send', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
                     </div>
