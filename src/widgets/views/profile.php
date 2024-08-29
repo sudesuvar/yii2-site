@@ -6,7 +6,6 @@ use portalium\site\Module;
 
 ProfileAsset::register($this);
 
-$user;
 $iconSize = (isset($style['iconSize']) && $style['iconSize'] != '') ? $style['iconSize'] : 20;
 $placementStyle='';
 if ($placement == 'top-to-bottom') {
@@ -45,7 +44,7 @@ if ($placement == 'top-to-bottom') {
             <span class="photo-label flex-column" style="vertical-align: middle;margin-left: 10px;"><?= $label ?></span>
 
         <?php else : ?>
-            <div class="sude" style="height: 100%; width:100%">
+            <div class="ımagelabel" style="height: 100%; width:100%">
             <span class="profile-picture initials" style="display: inline-block; vertical-align: middle; "><?= $usernameInitial ?></span>
             <div style=" padding-top: 5px; display: inline-block; vertical-align: middle;  margin-right:15px ;"><?php echo $first_name  ?></div>
             </div>
