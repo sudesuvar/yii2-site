@@ -6,6 +6,7 @@ use yii\base\Model;
 use portalium\site\Module;
 use Yii;
 use portalium\user\models\User;
+use portalium\storage\models\Storage;
 
 class ProfileForm extends Model
 {
@@ -44,6 +45,37 @@ class ProfileForm extends Model
             'last_name' => Module::t('Last Name'),
             'username' => Module::t('Username'),
             'email' => Module::t('Email'),
+        ];
+    }
+    public static function getUser(){
+        $user = User::findOne(Yii::$app->user->id);
+        $username = $user->username;
+        $last_name = $user->last_name;
+        $first_name = $user->first_name;
+        $id_avatar = $user->id_avatar;
+        $storage = new Storage();
+        $model = $storage->find()->andWhere(['id_storage' => $id_avatar])->one();
+        $title = "";
+        $usernameInitial = '';
+        $filePath = '';
+        if ($model !== null) {
+            $filename = $model->name;
+            if ($filename !== null && $filename !== '') {
+                $filePath = Yii::getAlias('@web/data/' . $filename);
+                $title = $model->title;
+            }
+        } else {
+            $usernameInitial = mb_substr($username, 0, 1, 'UTF-8');
+            $title = $username;
+        }
+        return [
+            'username' => $username,
+            'last_name' => $last_name,
+            'first_name' => $first_name,
+            'id_avatar' => $id_avatar,
+            'title' => $title,
+            'usernameInitial' => $usernameInitial,
+            'filePath' => $filePath,
         ];
     }
 
